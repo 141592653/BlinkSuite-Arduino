@@ -23,7 +23,7 @@
 
 #include "BlinkBase.h"
 
-BlinkBase::BlinkBase(unsigned int pin, unsigned int delay) :
+BlinkBase::BlinkBase(unsigned int pin, unsigned int delay, unsigned int percentProba) :
 	_pins(new unsigned int[1]{pin}),
 	_numberOfPins(1),
 	_delays(new unsigned int[1]{delay}),
@@ -31,11 +31,12 @@ BlinkBase::BlinkBase(unsigned int pin, unsigned int delay) :
 	_currentDelay(0),
 	_startLevel(HIGH),
 	_secondLevel(LOW),
-	_on(false)
+	_on(false),
+	_proba(percentProba)
 {
 }
 
-BlinkBase::BlinkBase(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays) :
+BlinkBase::BlinkBase(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays, unsigned int percentProba) :
 	_pins(new unsigned int[1]{pin}),
 	_numberOfPins(1),
 	_delays(new unsigned int[numberOfDelays]),
@@ -43,7 +44,8 @@ BlinkBase::BlinkBase(unsigned int pin, unsigned int delays[], unsigned int numbe
 	_currentDelay(0),
 	_startLevel(HIGH),
 	_secondLevel(LOW),
-	_on(false)
+	_on(false),
+	_proba(percentProba)
 {
 	for (unsigned int i = 0; i < _numberOfDelays; i++)
 	{
@@ -68,6 +70,7 @@ void BlinkBase::begin()
 {
 	_updateTimer.setTimeOutTime(_delays[0]);
 	_updateTimer.reset();
+	randomSeed(analogRead(0));
 
 	// If we are debugging, print info.
 	#ifdef BLINKDEBUG
@@ -93,11 +96,15 @@ void BlinkBase::begin()
 
 void BlinkBase::update()
 {
+	
 	if (_updateTimer.hasTimedOut())
 	{
-		_on = !_on;
+		if(random(100) < _proba)
+		{
+ 			_on = !_on;
+			updatePins();
+		}
 
-		updatePins();
 
 		// Increment the delay index and reset if we are at the end.
 		_currentDelay++;

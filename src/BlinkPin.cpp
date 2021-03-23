@@ -23,13 +23,13 @@
 
 #include "BlinkPin.h"
 
-BlinkPin::BlinkPin(unsigned int pin, unsigned int delay) :
-	BlinkBase(pin, delay)
+BlinkPin::BlinkPin(unsigned int pin, unsigned int delay,  unsigned int percentProba) :
+	BlinkBase(pin, delay,percentProba)
 {
 }
 
-BlinkPin::BlinkPin(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays) :
-	BlinkBase(pin, delays, numberOfDelays)
+BlinkPin::BlinkPin(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays,  unsigned int percentProba) :
+	BlinkBase(pin, delays, numberOfDelays, percentProba)
 {
 }
 

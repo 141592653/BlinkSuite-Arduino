@@ -60,8 +60,8 @@ class BlinkBase
 	// Constructors.
 	protected:
 		// Constructor.
-		BlinkBase(unsigned int pin, unsigned int delay);
-		BlinkBase(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays);
+		BlinkBase(unsigned int pin, unsigned int delay, unsigned int percentProba);
+		BlinkBase(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays, unsigned int percentProba);
 
 	public:
 		// Default destructor.
@@ -114,6 +114,9 @@ class BlinkBase
 	private:
 		// Used to remember the state.
 		bool 			_on;
+
+		//The probability that the blink actually takes place in percentage 
+		unsigned int	_proba;
 
 		// Timer.
 		SoftTimer 		_updateTimer;

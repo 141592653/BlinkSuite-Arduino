@@ -41,8 +41,8 @@ class BlinkPin : public BlinkBase
 	// Constructors.
 	public:
 		// Constructor.
-		BlinkPin(unsigned int pin, unsigned int delay);
-		BlinkPin(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays);
+		BlinkPin(unsigned int pin, unsigned int delay, unsigned int percentProba = 100);
+		BlinkPin(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays, unsigned int percentProba = 100);
 
 		// Default destructor.
 		~BlinkPin();
