@@ -1,4 +1,4 @@
-This fork is written to add randomization to lendres' Blinkers.
+This fork was made to add randomization to lendres' Blinkers.
 
 # BlinkSuite
 
