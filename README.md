@@ -1,3 +1,5 @@
+This fork was made to add randomization to lendres' Blinkers.
+
 # BlinkSuite
 
 Library for blinking (turning on and off) or running sequences on Arduino pins.  There are two output options.  The first is for turning on indicators attached to Arduino pins.  The second option outputs through a shift register.  These options are implemented as separate classes.
