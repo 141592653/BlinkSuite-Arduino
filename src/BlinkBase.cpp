@@ -32,7 +32,8 @@ BlinkBase::BlinkBase(unsigned int pin, unsigned int delay, unsigned int percentP
 	_startLevel(HIGH),
 	_secondLevel(LOW),
 	_on(false),
-	_proba(percentProba)
+	_proba(percentProba),
+	_delayMultiplier(1.0)
 {
 }
 
@@ -45,7 +46,8 @@ BlinkBase::BlinkBase(unsigned int pin, unsigned int delays[], unsigned int numbe
 	_startLevel(HIGH),
 	_secondLevel(LOW),
 	_on(false),
-	_proba(percentProba)
+	_proba(percentProba),
+	_delayMultiplier(1.0)
 {
 	for (unsigned int i = 0; i < _numberOfDelays; i++)
 	{
@@ -118,10 +120,10 @@ void BlinkBase::update()
 			Serial.println(_currentDelay);
 
 			Serial.print("[Blink] Delay Value: ");
-			Serial.println(_delays[_currentDelay]);
+			Serial.println(_delays[_currentDelay] * _delayMultiplier);
 		#endif
 
-		_updateTimer.setTimeOutTime(_delays[_currentDelay]);
+		_updateTimer.setTimeOutTime(_delays[_currentDelay] * _delayMultiplier);
 		_updateTimer.reset();
 	}
 }
@@ -129,6 +131,16 @@ void BlinkBase::update()
 uint8_t BlinkBase::getActiveLevel()
 {
 	return _on ? _secondLevel : _startLevel;
+}
+
+void BlinkBase::setDelayMultiplier(float delayMultiplier)
+{
+	_delayMultiplier = delayMultiplier;
+}
+
+void BlinkBase::setBlinkProba(unsigned int percentProba)
+{
+	_proba = percentProba;
 }
 
 #ifdef BLINKDEBUG

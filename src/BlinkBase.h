@@ -77,6 +77,12 @@ class BlinkBase
 		// Manual control of pins.
 		virtual void setPins(uint8_t level) = 0;
 
+		//Changes global speed of blinking
+		void setDelayMultiplier(float delayMultiplier);
+
+		//Set blink probability
+		void setBlinkProba(unsigned int percentProba);
+
 	// Helper functions for the derived classes.  The user does not need to worry about these.
 	protected:
 		// Returns the current level (HIGH or LOW) to use for setting the pin.
@@ -117,6 +123,8 @@ class BlinkBase
 
 		//The probability that the blink actually takes place in percentage 
 		unsigned int	_proba;
+		//Allows to change the global speed of the blinking
+		float			_delayMultiplier;
 
 		// Timer.
 		SoftTimer 		_updateTimer;
