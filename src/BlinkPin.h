@@ -40,12 +40,11 @@ class BlinkPin : public BlinkBase
 {
 	// Constructors.
 	public:
-		// Constructor.
+		// Default constructor.
+		BlinkPin();
+
 		BlinkPin(unsigned int pin, unsigned int delay, unsigned int percentProba = 100);
 		BlinkPin(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays, unsigned int percentProba = 100);
-
-		// Default destructor.
-		~BlinkPin();
 
 	public:
 		// Initialization.  Run this functions in your "setup" routine.

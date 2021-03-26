@@ -50,7 +50,7 @@
 #ifndef BLINKBASE_H
 #define BLINKBASE_H
 
-#define BLINKDEBUG
+//#define BLINKDEBUG
 
 #include <Arduino.h>
 #include "SoftTimers.h"
@@ -59,7 +59,13 @@ class BlinkBase
 {
 	// Constructors.
 	protected:
-		// Constructor.
+		// Rule of five
+		BlinkBase();
+		BlinkBase(const BlinkBase &other);
+		BlinkBase(BlinkBase &&other);
+		BlinkBase &operator=(const BlinkBase &other);
+		BlinkBase &operator=(BlinkBase &&other);
+
 		BlinkBase(unsigned int pin, unsigned int delay, unsigned int percentProba);
 		BlinkBase(unsigned int pin, unsigned int delays[], unsigned int numberOfDelays, unsigned int percentProba);
 

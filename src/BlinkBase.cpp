@@ -23,6 +23,113 @@
 
 #include "BlinkBase.h"
 
+BlinkBase::BlinkBase() :
+	_pins(nullptr),
+	_numberOfPins(0),
+	_delays(nullptr),
+	_numberOfDelays(0),
+	_currentDelay(0),
+	_startLevel(HIGH),
+	_secondLevel(LOW),
+	_on(false),
+	_proba(100),
+	_delayMultiplier(1.0)
+{
+}
+
+BlinkBase::BlinkBase(const BlinkBase &other) :
+	_pins(new unsigned int[other._numberOfPins]),
+	_numberOfPins(other._numberOfPins),
+	_delays(new unsigned int[other._numberOfDelays]),
+	_numberOfDelays(other._numberOfDelays),
+	_currentDelay(other._currentDelay),
+	_startLevel(other._startLevel),
+	_secondLevel(other._secondLevel),
+	_on(other._on),
+	_proba(other._proba),
+	_delayMultiplier(other._delayMultiplier)
+{
+	memcpy(_pins,other._pins, sizeof(unsigned int) * _numberOfPins);
+	memcpy(_delays,other._delays, sizeof(unsigned int) * _numberOfDelays);
+}
+
+BlinkBase::BlinkBase(BlinkBase &&other) :
+	_pins(other._pins),
+	_numberOfPins(other._numberOfPins),
+	_delays(other._delays),
+	_numberOfDelays(other._numberOfDelays),
+	_currentDelay(other._currentDelay),
+	_startLevel(other._startLevel),
+	_secondLevel(other._secondLevel),
+	_on(other._on),
+	_proba(other._proba),
+	_delayMultiplier(other._delayMultiplier)
+{
+	other._pins = nullptr;
+	other._delays = nullptr;
+}
+
+BlinkBase &BlinkBase::operator=(const BlinkBase &other)  
+{
+	_numberOfPins = other._numberOfPins;
+	_numberOfDelays = other._numberOfDelays;
+	_currentDelay = other._currentDelay;
+	_startLevel = other._startLevel;
+	_secondLevel = other._secondLevel;
+	_on = other._on;
+	_proba = other._proba;
+	_delayMultiplier = other._delayMultiplier;
+	if (&other != this)
+	{
+		delete _pins;
+		delete _delays;
+		_pins = nullptr;
+		_delays = nullptr;
+		_pins = new unsigned int[other._numberOfPins];
+		_delays = new unsigned int[other._numberOfDelays];
+		memcpy(_pins,other._pins, sizeof(unsigned int) * _numberOfPins);
+		memcpy(_delays,other._delays, sizeof(unsigned int) * _numberOfDelays);
+	}
+	return *this;
+}
+
+BlinkBase &BlinkBase::operator=(BlinkBase &&other) 
+{
+	_numberOfPins = other._numberOfPins;
+	_numberOfDelays = other._numberOfDelays;
+	_currentDelay = other._currentDelay;
+	_startLevel = other._startLevel;
+	_secondLevel = other._secondLevel;
+	_on = other._on;
+	_proba = other._proba;
+	_delayMultiplier = other._delayMultiplier;
+	if (&other != this)
+	{
+		delete _pins;
+		delete _delays;
+		_pins = other._pins;
+		_delays = other._delays;
+		other._pins = nullptr;
+		other._delays = nullptr;
+
+	}
+	return *this;
+}
+
+BlinkBase::~BlinkBase()
+{
+	if (_pins)
+	{
+		delete[] _pins;
+	}
+
+	if (_delays)
+	{
+		delete[] _delays;
+	}
+}
+
+
 BlinkBase::BlinkBase(unsigned int pin, unsigned int delay, unsigned int percentProba) :
 	_pins(new unsigned int[1]{pin}),
 	_numberOfPins(1),
@@ -53,19 +160,6 @@ BlinkBase::BlinkBase(unsigned int pin, unsigned int delays[], unsigned int numbe
 	{
 		_delays[i] = delays[i];
 	}	
-}
-
-BlinkBase::~BlinkBase()
-{
-	if (_pins)
-	{
-		delete[] _pins;
-	}
-
-	if (_delays)
-	{
-		delete[] _delays;
-	}
 }
 
 void BlinkBase::begin()
